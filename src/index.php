@@ -1,19 +1,28 @@
 <?php 
 
 $connectDatabase = new PDO("mysql:host=db;dbname=wordpress","root", "admin");
-    $request = $connectDatabase->prepare("SELECT * FROM comment");
-    $request->execute();
-    // if(@$_GET['asc']=='true') {
-    //     $request = $connectDatabase->prepare("SELECT * FROM recipes WHERE user_id = $user_id ORDER BY recipe_date ASC");
-    //     $request->execute();
+    // var_dump($_GET);die();
+    if(@$_GET['dateUp']=='true') {
+        $request = $connectDatabase->prepare("SELECT * FROM comment ORDER BY comment . created_at ASC");
         
-    // }
-    // if(@$_GET['desc']=='true') {
-    //     $request = $connectDatabase->prepare("SELECT * FROM recipes WHERE user_id = $user_id ORDER BY recipe_date DESC");
-    //     $request->execute();
+    }
+    elseif(@$_GET['dateDown']=='true') {
+        $request = $connectDatabase->prepare("SELECT * FROM comment ORDER BY comment . created_at DESC");
 
-    // }
-    $commentList = $request->fetchAll();
+    }    
+    elseif(@$_GET['ratingUp']=='true') {
+        $request = $connectDatabase->prepare("SELECT * FROM comment ORDER BY comment . rating ASC");
+        
+    }
+    elseif(@$_GET['ratingDown']=='true') {
+        $request = $connectDatabase->prepare("SELECT * FROM comment ORDER BY comment . rating DESC");
+        
+    } else {
+        $request = $connectDatabase->prepare("SELECT * FROM comment");
+
+        }
+        $request->execute();
+        $commentList = $request->fetchAll();
 
 ?>
 <!doctype html>
@@ -34,6 +43,7 @@ $connectDatabase = new PDO("mysql:host=db;dbname=wordpress","root", "admin");
             <input type="text" placeholder="Enter your name" name="input_username">
             <input type="email" placeholder="Enter your email" name="input_email">
             <input type="textarea" placeholder="Enter your comment" name="input_message">
+            <input type="number" placeholder="1-5" min="1" max="5" name="input_rating">
             <input type="submit">
         </form>
 
@@ -45,11 +55,24 @@ $connectDatabase = new PDO("mysql:host=db;dbname=wordpress","root", "admin");
         <?php endif;?>
 
         <div class="container mt-5">
+
+            <a href="./index.php?dateUp=true"><button type="button" class="btn">Trier par date (Croissant)</button></a>
+            <a href="./index.php?dateDown=true"><button type="button" class="btn">Trier par date
+                    (Décroissant)</button></a>
+
+            <a href="./index.php?ratingUp=true"><button type="button" class="btn">Trier par score
+                    (Croissant)</button></a>
+            <a href="./index.php?ratingDown=true"><button type="button" class="btn">Trier par score
+                    (Décroissant)</button></a>
+
+
+
             <?php if(isset($commentList[0])) :?>
             <?php foreach($commentList as $comment) :?>
             <div class="card mt-2" style="width: 18rem;">
                 <div class="card-body">
                     <h5 class="card-title"><?php echo $comment['username']?></h5>
+                    <p class="card-text"><?php echo $comment['rating']?></p>
                     <p class="card-text"><?php echo $comment['content']?></p>
                     <p class="card-text"><?php echo $comment['created_at'] ?></p>
                 </div>
