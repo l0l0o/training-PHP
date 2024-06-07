@@ -2,9 +2,9 @@
 $username = $_POST['input_username'];
 $email = $_POST['input_email'];
 $content = $_POST['input_message'];
-$rating = 4;
+$rating = $_POST['input_rating'];
 
-if(isset($username) && $username !== "" && isset($email) && $email !== "" && isset($content) && $content !== "" ) {
+if(isset($username) && $username !== "" && isset($email) && $email !== "" && isset($content) && $content !== "" && isset($rating) && $rating !=="") {
     $connectDatabase = new PDO("mysql:host=db;dbname=wordpress","root", "admin");
     $request = $connectDatabase->prepare("INSERT INTO comment (username, email, content, rating) VALUES (:username, :email, :content, :rating)");
     
