@@ -6,7 +6,7 @@ $rating = 4;
 
 if(isset($username) && $username !== "" && isset($email) && $email !== "" && isset($content) && $content !== "" ) {
     $connectDatabase = new PDO("mysql:host=db;dbname=wordpress","root", "admin");
-    $request = $connectDatabase->prepare("INSERT INTO comment (username, email, content, rating) VALUES (:username, :email, :content, :rating");
+    $request = $connectDatabase->prepare("INSERT INTO comment (username, email, content, rating) VALUES (:username, :email, :content, :rating)");
     
     $request->bindParam(':username', $username);
     $request->bindParam(':email', $email);

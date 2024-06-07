@@ -37,10 +37,17 @@ $connectDatabase = new PDO("mysql:host=db;dbname=wordpress","root", "admin");
             <input type="submit">
         </form>
 
+        <?php if(isset($_GET['error'])) :?>
+        <p><?php echo $_GET['error'] ?></p>
+        <?php endif;?>
+        <?php if(isset($_GET['success'])) :?>
+        <p><?php echo $_GET['success'] ?></p>
+        <?php endif;?>
+
         <div class="container mt-5">
             <?php if(isset($commentList[0])) :?>
             <?php foreach($commentList as $comment) :?>
-            <div class="card" style="width: 18rem;">
+            <div class="card mt-2" style="width: 18rem;">
                 <div class="card-body">
                     <h5 class="card-title"><?php echo $comment['username']?></h5>
                     <p class="card-text"><?php echo $comment['content']?></p>
@@ -54,12 +61,7 @@ $connectDatabase = new PDO("mysql:host=db;dbname=wordpress","root", "admin");
 
 
 
-        <?php if(isset($_GET['error'])) :?>
-        <p><?php echo $_GET['error'] ?></p>
-        <?php endif;?>
-        <?php if(isset($_GET['success'])) :?>
-        <p><?php echo $_GET['success'] ?></p>
-        <?php endif;?>
+
 
     </div>
 
